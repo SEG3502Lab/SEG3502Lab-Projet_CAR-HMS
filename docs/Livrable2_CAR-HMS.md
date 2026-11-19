@@ -6,12 +6,12 @@ Cairn, système de gestion d’événements de randonnée (CAR-HMS)
 
 ------------------------------------------------------------------------
 
-| Équipe       | **[nom de l’équipe]**   |
+| Équipe       | 2 |
 |:-------------|-------------------------------------------------|
 | Produit      | Cairn (CAR-HMS)                                 |
 | Date         | 18 novembre 2026                                |
 | Cours        | SEG 3502                                        |
-| Professeur   | **[nom du professeur]** |
+| Professeur   | Kalonji Kalala |
 | Livrable     | 2                                               |
 | Dépôt GitHub | SEG3502Lab/SEG3502Lab-Projet_CAR-HMS            |
 
@@ -19,8 +19,8 @@ Cairn, système de gestion d’événements de randonnée (CAR-HMS)
 
 | **Nom** | **Utilisateur GitHub** | **Numéro d’étudiant** |
 |:---|----|----|
-| **[nom complet]** | MehdiSmr | **[numéro d’étudiant]** |
-| **[nom complet]** | **[à confirmer : SjSalma]** | **[numéro d’étudiant]** |
+| Mehdi Semmar | MehdiSmr | 300372426 |
+| Salma Sajid | SjSalma | 300370622 |
 
 ## Table des matières
 
@@ -46,10 +46,8 @@ Le tableau ci-dessous doit être rempli par l’équipe : la répartition réell
 
 | **Membre** | **Tâches pour ce livrable** | **Travail (%)** | **Heures** |
 |:---|----|----|----|
-| **[nom complet]** | **[tâches réalisées]** | **[%]** | **[h]** |
-| **[nom complet]** | **[tâches réalisées]** | **[%]** | **[h]** |
-
-**[Si la répartition est inégale, en expliquer ici la raison en un court paragraphe.]**
+| Mehdi Semmar | **[tâches réalisées]** | **[%]** | **[h]** |
+| Salma Sajid | **[tâches réalisées]** | **[%]** | **[h]** |
 
 # 4. Hypothèses et décisions de conception
 
@@ -1178,12 +1176,10 @@ L’équipe a utilisé Claude Code (modèle Claude Opus 5.5, Anthropic) pour ce 
 
 | **Élément** | **Rôle de l’IA** |
 |:---|----|
-| Domaine et cas d’utilisation | Code généré à partir des contrats et des interfaces du livrable 1 |
-| Stubs et définitions d’étapes | Code généré |
-| Diagrammes UML | Sources Mermaid générées à partir du code |
-| Ce document | Rédaction et mise en page générées |
-| Contrats, requêtes et interfaces du livrable 1 | Aucune modification des contrats ni des interfaces |
+| Domaine et cas d’utilisation |  |
+| Stubs et définitions d’étapes |  |
+| Diagrammes UML |  |
+| Ce document |  |
+| Contrats, requêtes et interfaces du livrable 1 |  |
 
 Le résultat a été vérifié par l’exécution des contrats et par l’injection de défauts décrite à l’annexe A.
-
-**[Décrire ici la révision faite par l’équipe : ce qui a été relu, corrigé et compris par chaque membre.]**
