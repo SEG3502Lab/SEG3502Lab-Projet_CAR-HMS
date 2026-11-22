@@ -23,6 +23,7 @@ Fonctionnalité: sendHikeReminder
     Et le rappel ne contient aucun avertissement météo
     Et "lucas.roy@courriel.ca" ne reçoit aucun rappel
     Et le rappel de "H-2027-0031" est marqué comme envoyé
+    Et la météo est consultée au point de départ "stationnement P11, chemin du Lac-Pink"
 
   Scénario: Rappel avec avertissement lorsque de la pluie est prévue
     Étant donné la météo prévue pour le 2027-09-18 au Lac-Pink est "pluie"

@@ -91,7 +91,7 @@ class BrowseHikesSteps(
         assertTrue(world.acted && world.refusal == null && world.results.isEmpty())
     }
 
-    @Alors("chaque résultat indique le titre, le sentier, la difficulté, le départ et les places restantes")
+    @Alors("chaque résultat indique le titre, le sentier, la difficulté, le départ, les places restantes et l'organisateur")
     fun resultsAreComplete() {
         assertTrue(world.results.isNotEmpty())
         world.results.forEach { summary ->
@@ -101,6 +101,8 @@ class BrowseHikesSteps(
             assertEquals(world.fixture(summary.hikeId).difficulty.label, summary.difficulty)
             assertEquals(hike.schedule.startDateTime, summary.startDateTime)
             assertEquals(hike.remainingSpots, summary.remainingSpots)
+            val organizerEmail = world.fixture(summary.hikeId).organizerEmail
+            assertEquals(world.hiker(organizerEmail).name.fullName, summary.organizerName)
         }
     }
 }

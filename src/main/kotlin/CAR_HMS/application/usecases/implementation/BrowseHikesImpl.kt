@@ -41,6 +41,7 @@ class BrowseHikesImpl(
 
     private fun summarize(hike: HikeDetails, trail: TrailDetails) = HikeSummary(
         hike.id.value, hike.title, trail.name, trail.difficulty.label,
-        hike.startDateTime, hike.status.label, hike.remainingSpots
+        hike.startDateTime, hike.status.label, hike.remainingSpots,
+        members.organizerNameOf(hike.organizerId)
     )
 }

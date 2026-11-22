@@ -22,7 +22,7 @@ Fonctionnalité: browseOpenHikes
     Étant donné aucun utilisateur n'est connecté
     Quand on consulte les randonnées ouvertes sans filtre
     Alors les randonnées retournées sont, dans l'ordre : H-2027-0015, H-2027-0012, H-2027-0018
-    Et chaque résultat indique le titre, le sentier, la difficulté, le départ et les places restantes
+    Et chaque résultat indique le titre, le sentier, la difficulté, le départ, les places restantes et l'organisateur
 
   Scénario: Consultation filtrée par sentier
     Quand on consulte les randonnées ouvertes pour le sentier "Sentier de Luskville"

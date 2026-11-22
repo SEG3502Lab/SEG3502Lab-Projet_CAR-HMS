@@ -29,9 +29,18 @@ data class HikeSchedule(
     val registrationDeadline: LocalDateTime
 ) {
     init {
+        if (expectedDuration.isZero || expectedDuration.isNegative) {
+            throw DomainException("durée invalide")
+        }
+
         val tooLate = !registrationDeadline.isBefore(startDateTime)
-        val tooEarly = registrationDeadline.isBefore(startDateTime.minusDays(MAX_DEADLINE_LEAD_DAYS))
-        if (tooLate || tooEarly) throw DomainException("date limite d'inscription invalide")
+        val tooEarly = registrationDeadline.isBefore(
+            startDateTime.minusDays(MAX_DEADLINE_LEAD_DAYS)
+        )
+
+        if (tooLate || tooEarly) {
+            throw DomainException("date limite d'inscription invalide")
+        }
     }
 
     private companion object {

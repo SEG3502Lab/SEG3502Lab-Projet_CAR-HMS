@@ -45,15 +45,22 @@ class StubEmailService : EmailService, Resettable {
 class StubWeatherService : WeatherService, Resettable {
     var condition = "ensoleillé"
     var available = true
+    var lastRequestedLocation: String? = null
 
     override fun forecast(location: String, date: LocalDate): String {
-        if (!available) throw WeatherServiceUnavailableException()
+        lastRequestedLocation = location
+
+        if (!available) {
+            throw WeatherServiceUnavailableException()
+        }
+
         return condition
     }
 
     override fun reset() {
         condition = "ensoleillé"
         available = true
+        lastRequestedLocation = null
     }
 }
 

@@ -44,9 +44,13 @@ class Hike(
         record(HikeStatusChanged(id, null, HikeStatus.OPEN, actor, at))
     }
 
-    fun requireAcceptingSignUps() {
+    fun requireAcceptingSignUps(at: LocalDateTime) {
         if (status != HikeStatus.OPEN && status != HikeStatus.FULL) {
             throw DomainException("randonnée non disponible")
+        }
+
+        if (!at.isBefore(schedule.registrationDeadline)) {
+            throw DomainException("date limite dépassée")
         }
     }
 
@@ -72,10 +76,24 @@ class Hike(
 
     /** Annule une inscription et retourne le randonneur promu de la liste d'attente, s'il y en a un. */
     fun cancelSignUp(signUpId: SignUpId, hikerId: HikerId, actor: String, at: LocalDateTime): HikerId? {
-        val signUp = signUpList.first { it.id == signUpId }
-        if (signUp.hikerId != hikerId) throw DomainException("accès refusé")
-        if (!signUp.isActive) throw DomainException("inscription non active")
-        if (at.isAfter(schedule.registrationDeadline)) throw DomainException("date limite dépassée")
+        val signUp = signUpList.firstOrNull { it.id == signUpId }
+            ?: throw DomainException("inscription introuvable")
+
+        if (signUp.hikerId != hikerId) {
+            throw DomainException("accès refusé")
+        }
+
+        if (!signUp.isActive) {
+            throw DomainException("inscription non active")
+        }
+
+        if (status != HikeStatus.OPEN && status != HikeStatus.FULL) {
+            throw DomainException("randonnée non disponible")
+        }
+
+        if (!at.isBefore(schedule.registrationDeadline)) {
+            throw DomainException("date limite dépassée")
+        }
 
         val freedConfirmedSpot = signUp.isConfirmed
         signUp.cancel()
@@ -114,6 +132,17 @@ class Hike(
         transitionTo(HikeStatus.CLOSED, actor, at)
         record(HikeClosed(id, at))
         return removed
+    }
+
+    /** Transition système quand la durée prévue est écoulée et que la sortie n'est pas annulée. */
+    fun complete(actor: String, at: LocalDateTime) {
+        if (status == HikeStatus.CANCELLED) throw DomainException("randonnée annulée")
+        if (status == HikeStatus.COMPLETED) throw DomainException("randonnée déjà terminée")
+        if (at.isBefore(schedule.startDateTime.plus(schedule.expectedDuration))) {
+            throw DomainException("randonnée non terminée")
+        }
+
+        transitionTo(HikeStatus.COMPLETED, actor, at)
     }
 
     fun requireReminderDue(at: LocalDateTime) {

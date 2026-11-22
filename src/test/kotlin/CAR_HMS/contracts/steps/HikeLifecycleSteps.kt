@@ -143,4 +143,9 @@ class HikeLifecycleSteps(
         noReminderSent()
         assertFalse(world.refusal == null)
     }
+
+    @Alors("la météo est consultée au point de départ {string}")
+    fun weatherRequestedAtTrailhead(location: String) {
+        assertEquals(location, weather.lastRequestedLocation)
+    }
 }

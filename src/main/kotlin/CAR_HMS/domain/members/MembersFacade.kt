@@ -88,6 +88,10 @@ class MembersFacade(
     fun emailOf(id: HikerId): String =
         hikers.findById(id)?.email ?: throw DomainException("randonneur introuvable")
 
+    /** Nom public de l'organisateur pour l'affichage des randonnées. */
+    fun organizerNameOf(id: HikerId): String =
+        hikers.findById(id)?.name?.fullName ?: throw DomainException("organisateur introuvable")
+
     private fun requireHiker(email: String): Hiker =
         hikers.findByEmail(email) ?: throw DomainException("randonneur introuvable")
 

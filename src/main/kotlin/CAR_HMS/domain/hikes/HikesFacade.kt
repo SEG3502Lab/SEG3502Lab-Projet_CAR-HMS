@@ -17,7 +17,8 @@ data class HikeDetails(
     val startDateTime: LocalDateTime,
     val status: HikeStatus,
     val remainingSpots: Int,
-    val confirmedHikerIds: List<HikerId>
+    val confirmedHikerIds: List<HikerId>,
+    val organizerId: HikerId
 )
 
 data class NewHike(
@@ -49,7 +50,23 @@ class HikesFacade(
         actor: String,
         at: LocalDateTime
     ): HikeId {
-        val schedule = HikeSchedule(newHike.startDateTime, newHike.expectedDuration, newHike.registrationDeadline)
+        if (newHike.title.isBlank() || newHike.description.isBlank()) {
+            throw DomainException("informations de randonnée incomplètes")
+        }
+
+        if (!newHike.startDateTime.isAfter(at)) {
+            throw DomainException("date de randonnée invalide")
+        }
+
+        if (!newHike.registrationDeadline.isAfter(at)) {
+            throw DomainException("date limite déjà dépassée")
+        }
+
+        val schedule = HikeSchedule(
+            newHike.startDateTime,
+            newHike.expectedDuration,
+            newHike.registrationDeadline
+        )
         val capacity = Capacity(newHike.capacity)
         planningPolicy.validate(qualification, newHike.startDateTime.toLocalDate(), trailDifficulty)
 
@@ -70,7 +87,7 @@ class HikesFacade(
         at: LocalDateTime
     ): SignUpResult {
         val hike = requireHike(hikeId)
-        hike.requireAcceptingSignUps()
+        hike.requireAcceptingSignUps(at)
         if (!skillMatching.matches(skillRank, trailDifficulty)) {
             throw DomainException("niveau d'habileté insuffisant")
         }
@@ -112,6 +129,13 @@ class HikesFacade(
         return removed
     }
 
+    /** À invoquer par le planificateur système lorsque la randonnée est terminée. */
+    fun completeHike(hikeId: HikeId, at: LocalDateTime) {
+        val hike = requireHike(hikeId)
+        hike.complete("système", at)
+        store(hike)
+    }
+
     fun prepareReminder(hikeId: HikeId, at: LocalDateTime): HikeDetails {
         val hike = requireHike(hikeId)
         hike.requireReminderDue(at)
@@ -146,6 +170,6 @@ class HikesFacade(
     }
 
     private fun Hike.toDetails() = HikeDetails(
-        id, title, trailId, schedule.startDateTime, status, remainingSpots, confirmedHikerIds
+        id, title, trailId, schedule.startDateTime, status, remainingSpots, confirmedHikerIds, organizerId
     )
 }

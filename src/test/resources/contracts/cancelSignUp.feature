@@ -62,3 +62,18 @@ Fonctionnalité: cancelSignUp
     Quand "julien.gagnon@courriel.ca" annule l'inscription "S-0101"
     Alors l'annulation est refusée avec le motif "date limite dépassée"
     Et l'inscription S-0101 a toujours le statut "confirmée"
+
+  Scénario: Refus d'annulation lorsque la randonnée est fermée
+    Étant donné "julien.gagnon@courriel.ca" a l'inscription "S-0101" au statut "confirmée"
+    Et la randonnée "H-2027-0012" a le statut "fermée"
+    Et nous sommes le 2027-06-10T18:00
+    Quand "julien.gagnon@courriel.ca" annule l'inscription "S-0101"
+    Alors l'annulation est refusée avec le motif "randonnée non disponible"
+    Et l'inscription S-0101 a toujours le statut "confirmée"
+
+  Scénario: Refus d'annulation à la date limite exacte
+    Étant donné "julien.gagnon@courriel.ca" a l'inscription "S-0101" au statut "confirmée"
+    Et nous sommes le 2027-06-10T18:00
+    Quand "julien.gagnon@courriel.ca" annule l'inscription "S-0101"
+    Alors l'annulation est refusée avec le motif "date limite dépassée"
+    Et l'inscription S-0101 a toujours le statut "confirmée"

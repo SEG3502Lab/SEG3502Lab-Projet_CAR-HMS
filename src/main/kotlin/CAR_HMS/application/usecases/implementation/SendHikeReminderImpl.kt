@@ -30,8 +30,11 @@ class SendHikeReminderImpl(
         val hikeId = HikeId(query.hikeId)
         val hike = hikes.prepareReminder(hikeId, now)
         val trail = trails.getTrail(hike.trailId)
-        val condition = forecastOrNull(trail.name, hike.startDateTime.toLocalDate())
-
+        val condition = forecastOrNull(
+            trail.trailhead,
+            hike.startDateTime.toLocalDate()
+        )
+        
         hike.confirmedHikerIds.forEach { hikerId ->
             email.send(
                 notifications.hikeReminder(

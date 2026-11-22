@@ -9,5 +9,6 @@ data class HikeSummary(
     val difficulty: String,
     val startDateTime: LocalDateTime,
     val status: String,
-    val remainingSpots: Int
+    val remainingSpots: Int,
+    val organizerName: String
 )

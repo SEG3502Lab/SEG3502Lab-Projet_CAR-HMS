@@ -75,3 +75,17 @@ Fonctionnalité: signUpForHike
     Quand "julien.gagnon@courriel.ca" s'inscrit à "H-2027-0012"
     Alors l'inscription est refusée avec le motif "inscription déjà active"
     Et "julien.gagnon@courriel.ca" a une seule inscription active à "H-2027-0012"
+
+  Scénario: Refus lorsque la date limite est atteinte
+    Étant donné nous sommes le 2027-06-10T07:00
+    Et "julien.gagnon@courriel.ca" est connecté
+    Quand "julien.gagnon@courriel.ca" s'inscrit à "H-2027-0012"
+    Alors l'inscription est refusée avec le motif "date limite dépassée"
+    Et le nombre de places restantes de "H-2027-0012" est 2
+
+  Scénario: Refus après la date limite sans fermeture automatique
+    Étant donné nous sommes le 2027-06-11T12:00
+    Et "julien.gagnon@courriel.ca" est connecté
+    Quand "julien.gagnon@courriel.ca" s'inscrit à "H-2027-0012"
+    Alors l'inscription est refusée avec le motif "date limite dépassée"
+    Et le nombre de places restantes de "H-2027-0012" est 2

@@ -12,7 +12,12 @@ data class TrailId(val value: String)
 data class OpeningSeason(val opensOn: MonthDay, val closesOn: MonthDay) {
     fun contains(date: LocalDate): Boolean {
         val day = MonthDay.from(date)
-        return !day.isBefore(opensOn) && !day.isAfter(closesOn)
+
+        return if (!opensOn.isAfter(closesOn)) {
+            !day.isBefore(opensOn) && !day.isAfter(closesOn)
+        } else {
+            !day.isBefore(opensOn) || !day.isAfter(closesOn)
+        }
     }
 }
 

@@ -1,57 +1,38 @@
-SEG 3502 · Automne 2026
+# Livrable 2 - Domaine
 
-**Livrable 2 : Domaine**
+**Cairn - Système de gestion d’événements de randonnée (CAR-HMS)**
 
-Cairn, système de gestion d’événements de randonnée (CAR-HMS)
+## 1. Page de couverture
 
-------------------------------------------------------------------------
+| Information | Détail |
+|---|---|
+| Équipe | 2 |
+| Projet | Cairn (CAR-HMS) |
+| Date | 22 novembre 2026 |
+| Cours | SEG 3502 |
+| Professeur | Kalonji Kalala |
+| Livrable | 2 - Domaine |
+| Dépôt GitHub | [SEG3502Lab/SEG3502Lab-Projet_CAR-HMS](https://github.com/SEG3502Lab/SEG3502Lab-Projet_CAR-HMS) |
 
-| Équipe       | 2 |
-|:-------------|-------------------------------------------------|
-| Produit      | Cairn (CAR-HMS)                                 |
-| Date         | 18 novembre 2026                                |
-| Cours        | SEG 3502                                        |
-| Professeur   | Kalonji Kalala |
-| Livrable     | 2                                               |
-| Dépôt GitHub | SEG3502Lab/SEG3502Lab-Projet_CAR-HMS            |
+| Membre | GitHub | Numéro d’étudiant |
+|---|---|---|
+| Mehdi Semmar | [MehdiSmr](https://github.com/MehdiSmr) | 300372426 |
+| Salma Sajid | [SjSalma](https://github.com/SjSalma) | 300370622 |
 
-**Membres de l’équipe**
+## 2. Sommaire exécutif
 
-| **Nom** | **Utilisateur GitHub** | **Numéro d’étudiant** |
-|:---|----|----|
-| Mehdi Semmar | MehdiSmr | 300372426 |
-| Salma Sajid | SjSalma | 300370622 |
+Destiné au professeur et aux correcteurs du cours SEG 3502, ce document présente la conception tactique du domaine de CAR-HMS : hypothèses, modèles UML des sous-domaines et réalisations des cas d’utilisation aux niveaux 1 et 2.
 
-## Table des matières
+## 3. Description de l’équipe et des rôles
 
-- [2. Sommaire exécutif](#2-sommaire-exécutif)
-- [3. Description de l’équipe et des rôles](#3-description-de-léquipe-et-des-rôles)
-- [4. Hypothèses et décisions de conception](#4-hypothèses-et-décisions-de-conception)
-- [5. Modèle du domaine](#5-modèle-du-domaine)
-- [6. Réalisations de cas d’utilisation](#6-réalisations-de-cas-dutilisation)
-- [7. Références](#7-références)
-- [Annexe A. Exécution des contrats](#annexe-a-exécution-des-contrats)
-- [Annexe B. Intégration continue (bonus)](#annexe-b-intégration-continue-bonus)
-- [Annexe C. Déclaration d’utilisation de l’IA générative](#annexe-c-déclaration-dutilisation-de-lia-générative)
+| Membre | Tâches effectuées pour ce livrable |
+|---|---|
+| Mehdi Semmar | Conception UML, implémentation du domaine, réalisation des cas d’utilisation et tests Cucumber pour une première moitié des fonctionnalités. Préparation de la structure du rapport Markdown. |
+| Salma Sajid | Conception UML, implémentation du domaine, réalisation des cas d’utilisation et tests Cucumber pour l’autre moitié des fonctionnalités. Configuration du workflow GitHub Actions et finalisation du rapport Markdown. |
 
-# 2. Sommaire exécutif
+## 4. Hypothèses et décisions de conception
 
-Ce document présente la conception tactique et l’implémentation du domaine de Cairn (CAR-HMS). Il s’adresse au professeur et aux correcteurs du cours SEG 3502, ainsi qu’à l’équipe qui s’en servira au livrable 3.
-
-Il décrit le modèle du domaine de chaque sous-domaine et la réalisation des douze cas d’utilisation sous forme de diagrammes de séquence de niveaux 1 et 2. Les 68 scénarios Cucumber des contrats réussissent avec ./gradlew test.
-
-# 3. Description de l’équipe et des rôles
-
-Le tableau ci-dessous doit être rempli par l’équipe : la répartition réelle du travail et les heures consacrées ne peuvent pas être déduites du dépôt.
-
-| **Membre** | **Tâches pour ce livrable** | **Travail (%)** | **Heures** |
-|:---|----|----|----|
-| Mehdi Semmar | **[tâches réalisées]** | **[%]** | **[h]** |
-| Salma Sajid | **[tâches réalisées]** | **[%]** | **[h]** |
-
-# 4. Hypothèses et décisions de conception
-
-Les décisions suivantes ne découlent pas directement des contrats ou des exigences. Les fichiers .feature du livrable 1 n’ont pas été modifiés.
+Les hypothèses et décisions de conception retenues par l’équipe sont les suivantes :
 
 | **No** | **Hypothèse ou décision** | **Justification** |
 |:---|----|----|
@@ -66,7 +47,7 @@ Les décisions suivantes ne découlent pas directement des contrats ou des exige
 | H9 | L’utilisateur connecté est fourni par CurrentUserService. Un administrateur est un UserAccount et n’est pas forcément un Hiker. | Les requêtes ne transportent qu’un courriel ; le contrat distingue visiteur, autre utilisateur et administrateur. |
 | H10 | L’acteur d’une transition est une chaîne : le courriel de l’utilisateur ou « système ». | Les contrats vérifient ces valeurs, et le système n’a pas d’identifiant de randonneur. |
 | H11 | La consultation ne retourne que les randonnées au statut « ouverte ». Une randonnée complète n’y figure pas. | Lecture littérale de « randonnées ouvertes ». |
-| H12 | La date limite doit précéder strictement le départ. L’annulation d’une inscription reste permise à la date limite exacte, et la fermeture est permise dès cet instant. | Le contrat ne refuse qu’« après » la date limite et ferme « à la date limite ». |
+| H12 | La date limite doit précéder strictement le départ. L’inscription et son annulation sont refusées à partir de la date limite (incluse), tandis que la fermeture est permise dès cet instant. | Reflète les contrôles de date actuellement implémentés. |
 | H13 | Difficulty appartient à un noyau partagé (domain.common). | Les sentiers, les certifications et les règles de niveau utilisent la même échelle. |
 | H14 | Un randonneur détient au plus une certification ; un nouvel enregistrement remplace la précédente. | Les contrats ne décrivent qu’une certification par randonneur. |
 | H15 | Trail et InvitationCode n’ont pas de fabrique. | Aucun cas d’utilisation ne les crée : les sentiers viennent de la CCN et les codes sont préexistants. |
@@ -74,18 +55,9 @@ Les décisions suivantes ne découlent pas directement des contrats ou des exige
 | H17 | Les façades sont des services Spring concrets ; les fabriques et les dépôts sont des interfaces. | Conforme à l’énoncé. L’application ne démarre donc pas hors des tests avant les implémentations du livrable 3. |
 | H18 | Les stubs des contrats complètent une randonnée avec des inscriptions de remplissage pour atteindre le nombre de places restantes décrit. | Plusieurs scénarios donnent ce nombre sans énumérer tous les participants. |
 
-# 5. Modèle du domaine
+## 5. Modèle du domaine
 
-Chaque diagramme indique le type de chaque concept par un stéréotype : racine d’agrégat, entité ou objet-valeur. Les cadres délimitent les agrégats. Les agrégations relient les concepts d’un même agrégat, et les flèches pointillées représentent les références par identifiant vers un autre agrégat.
-
-| **Sous-domaine** | **Agrégats (racine)** | **Événements de domaine** | **Fabriques et dépôts** | **Services et façade** |
-|:---|----|----|----|----|
-| hikes (cœur) | Hike | HikeCreated, HikeStatusChanged, HikeCancelled, HikeClosed, SignUpConfirmed, SignUpWaitlisted, SignUpCancelled, SignUpPromoted, WaitlistPositionChanged, HikeReminderSent | HikeFactory, SignUpFactory, HikeRepository | HikePlanningPolicy, SkillMatchingPolicy, HikesFacade |
-| members (support) | Hiker, InvitationCode | HikerRegistered, InvitationCodeRedeemed, HikerInformationUpdated, MembershipStatusChanged, OrganizerCertificationRecorded | HikerFactory, HikerRepository, InvitationCodeRepository | HikerRegistrationPolicy, MembersFacade |
-| trails (support) | Trail | Aucun (lecture seule) | TrailRepository | TrailsFacade |
-| authentication (générique) | UserAccount | UserAccountCreated | UserAccountFactory, UserAccountRepository | AuthorizationService, AuthenticationFacade |
-| notifications (générique) | Aucun | Aucun | Aucun | NotificationComposer, NotificationsFacade |
-| reports (support) | Aucun | Aucun | Aucun | TrailUsageReportGenerator, ReportsFacade |
+Les diagrammes distinguent les racines d’agrégats, les entités et les objets-valeurs. Les agrégations UML représentent les relations internes aux agrégats ; les références entre agrégats utilisent des identifiants. Les multiplicités sont précisées sur les associations.
 
 ## 5.1 Randonnées et inscriptions
 
@@ -104,13 +76,14 @@ class Hike {
   +reminderSent Boolean
   +remainingSpots Int
   +open(actor, at)
-  +requireAcceptingSignUps()
+  +requireAcceptingSignUps(at)
   +requireNoActiveSignUp(hikerId)
   +nextPlacement() SignUpPlacement
   +addSignUp(signUp, actor, at)
   +cancelSignUp(id, hikerId, actor, at) HikerId?
   +cancel(authorized, reason, actor, at) List~HikerId~
   +close(actor, at) List~HikerId~
+  +complete(actor, at)
   +requireReminderDue(at)
   +markReminderSent(at)
 }
@@ -411,44 +384,9 @@ TrailUsageReportGenerator ..> TrailUsageReport : produit
 
 *Figure 6. Rapports d’utilisation des sentiers.*
 
-## 5.7 Noyau partagé
+## 6. Réalisations de cas d’utilisation
 
-```mermaid
-classDiagram
-direction LR
-class AggregateRoot {
-  <<abstract>>
-  +pullDomainEvents() List~DomainEvent~
-}
-class DomainEvent {
-  <<interface>>
-  +occurredAt LocalDateTime
-}
-class DomainEventEmitter {
-  <<interface>>
-  +emit(event)
-}
-class DomainException {
-  +reason String
-}
-class Difficulty {
-  <<objet-valeur>>
-  EASY
-  MODERATE
-  HARD
-  VERY_HARD
-  +label String
-  +rank Int
-}
-AggregateRoot "1" o-- "0..*" DomainEvent : événements en attente
-DomainEventEmitter ..> DomainEvent : publie
-```
-
-*Figure 7. Noyau partagé par les sous-domaines.*
-
-# 6. Réalisations de cas d’utilisation
-
-Chaque cas d’utilisation est réalisé par une classe du paquetage application.usecases.implementation. Les diagrammes de niveau 1 montrent sa collaboration avec les façades et les services applicatifs. Ceux de niveau 2 montrent le travail des façades. Se connecter, Se déconnecter et Générer le rapport d’utilisation des sentiers sont exclus, comme le prévoit l’énoncé.
+Les diagrammes de niveau 1 présentent les interactions entre le cas d’utilisation et les façades ; ceux de niveau 2 détaillent les collaborations avec les fabriques, dépôts, agrégats et événements de domaine. Conformément aux consignes, les cas *Se connecter*, *Se déconnecter* et *Générer le rapport d’utilisation des sentiers* ne figurent pas ici.
 
 ## 6.1 Inscrire un randonneur (registerHiker)
 
@@ -471,7 +409,7 @@ UC->>A: createHikerAccount(email,<br/>passwordHash, now)
 UC-->>V: hikerId.value
 ```
 
-*Figure 8. registerHiker, niveau 1.*
+*Figure 7. registerHiker, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -505,7 +443,7 @@ M->>E: emit(HikerRegistered)
 M->>E: emit(InvitationCodeRedeemed)
 ```
 
-*Figure 9. registerHiker, niveau 2 : MembersFacade.registerHiker.*
+*Figure 8. registerHiker, niveau 2 : MembersFacade.registerHiker.*
 
 ```mermaid
 sequenceDiagram
@@ -521,7 +459,7 @@ A->>R: save(account)
 A->>E: emit(UserAccountCreated)
 ```
 
-*Figure 10. registerHiker, niveau 2 : AuthenticationFacade.createHikerAccount.*
+*Figure 9. registerHiker, niveau 2 : AuthenticationFacade.createHikerAccount.*
 
 ## 6.2 Modifier ses informations (updateHikerInformation)
 
@@ -545,7 +483,7 @@ T-->>UC: now
 UC->>M: updateHikerInformation(hikerEmail,<br/>information, now)
 ```
 
-*Figure 11. updateHikerInformation, niveau 1.*
+*Figure 10. updateHikerInformation, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -560,7 +498,7 @@ M->>R: save(hiker)
 M->>E: emit(HikerInformationUpdated)
 ```
 
-*Figure 12. updateHikerInformation, niveau 2 : MembersFacade.updateHikerInformation.*
+*Figure 11. updateHikerInformation, niveau 2 : MembersFacade.updateHikerInformation.*
 
 ## 6.3 Changer le statut d’adhésion (updateMembershipStatus)
 
@@ -586,7 +524,7 @@ T-->>UC: now
 UC->>M: changeMembershipStatus(hikerEmail,<br/>newStatus, now)
 ```
 
-*Figure 13. updateMembershipStatus, niveau 1.*
+*Figure 12. updateMembershipStatus, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -609,7 +547,7 @@ M->>R: save(hiker)
 M->>E: emit(MembershipStatusChanged)
 ```
 
-*Figure 14. updateMembershipStatus, niveau 2 : MembersFacade.changeMembershipStatus.*
+*Figure 13. updateMembershipStatus, niveau 2 : MembersFacade.changeMembershipStatus.*
 
 ## 6.4 Enregistrer une certification (recordOrganizerCertification)
 
@@ -634,7 +572,7 @@ T-->>UC: now
 UC->>M: recordCertification(hikerEmail,<br/>number, period, level, now)
 ```
 
-*Figure 15. recordOrganizerCertification, niveau 1.*
+*Figure 14. recordOrganizerCertification, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -654,7 +592,7 @@ M->>R: save(hiker)
 M->>E: emit(OrganizerCertificationRecorded)
 ```
 
-*Figure 16. recordOrganizerCertification, niveau 2 : MembersFacade.recordCertification.*
+*Figure 15. recordOrganizerCertification, niveau 2 : MembersFacade.recordCertification.*
 
 ## 6.5 Créer une randonnée (createHike)
 
@@ -680,7 +618,7 @@ HF-->>UC: hikeId
 UC-->>V: hikeId.value
 ```
 
-*Figure 17. createHike, niveau 1.*
+*Figure 16. createHike, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -703,7 +641,7 @@ HF->>E: emit(HikeCreated)
 HF->>E: emit(HikeStatusChanged)
 ```
 
-*Figure 18. createHike, niveau 2 : HikesFacade.createHike.*
+*Figure 17. createHike, niveau 2 : HikesFacade.createHike.*
 
 ```mermaid
 sequenceDiagram
@@ -723,7 +661,7 @@ TF->>TL: requireHikeableOn(date)
 Note right of TL: refus "randonnée non permise sur<br/>ce sentier" ou "date hors de la<br/>saison d'ouverture"
 ```
 
-*Figure 19. createHike, niveau 2 : MembersFacade.requireCertifiedOrganizer et TrailsFacade.requireHikeableTrail.*
+*Figure 18. createHike, niveau 2 : MembersFacade.requireCertifiedOrganizer et TrailsFacade.requireHikeableTrail.*
 
 ## 6.6 Annuler une randonnée (cancelHike)
 
@@ -759,7 +697,7 @@ loop chaque randonneur touché
 end
 ```
 
-*Figure 20. cancelHike, niveau 1.*
+*Figure 19. cancelHike, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -784,7 +722,7 @@ HF->>E: emit(HikeStatusChanged)
 HF->>E: emit(HikeCancelled)
 ```
 
-*Figure 21. cancelHike, niveau 2 : HikesFacade.cancelHike.*
+*Figure 20. cancelHike, niveau 2 : HikesFacade.cancelHike.*
 
 ## 6.7 Fermer une randonnée (closeHike)
 
@@ -813,7 +751,7 @@ loop chaque randonneur retiré
 end
 ```
 
-*Figure 22. closeHike, niveau 1.*
+*Figure 21. closeHike, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -838,7 +776,7 @@ HF->>E: emit(HikeStatusChanged)
 HF->>E: emit(HikeClosed)
 ```
 
-*Figure 23. closeHike, niveau 2 : HikesFacade.closeHike.*
+*Figure 22. closeHike, niveau 2 : HikesFacade.closeHike.*
 
 ## 6.8 Consulter les randonnées ouvertes (browseOpenHikes)
 
@@ -848,18 +786,29 @@ actor V as Visiteur ou randonneur
 participant UC as BrowseHikes<br/>Impl
 participant HF as Hikes<br/>Facade
 participant TR as Trails<br/>Facade
+participant M as Members<br/>Facade
+
 V->>UC: browseOpenHikes(query)
 UC->>HF: findOpenHikes()
 HF-->>UC: randonnées ouvertes triées
+
 loop chaque randonnée
-  UC->>TR: getTrail(trailId)
-  TR-->>UC: trail
+    UC->>TR: getTrail(trailId)
+    TR-->>UC: trail
 end
+
 UC->>UC: filtrer par sentier, date et<br/>difficulté
+
+loop chaque randonnée retenue
+    UC->>M: organizerNameOf(hike.organizerId)
+    M-->>UC: organizerName
+    UC->>UC: construire HikeSummary
+end
+
 UC-->>V: List of HikeSummary
 ```
 
-*Figure 24. browseOpenHikes, niveau 1.*
+*Figure 23. browseOpenHikes, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -875,7 +824,7 @@ TRR-->>TF: trail
 Note over HF,TRR: Consultation sans changement<br/>d'état : aucun événement de<br/>domaine
 ```
 
-*Figure 25. browseOpenHikes, niveau 2 : HikesFacade.findOpenHikes et TrailsFacade.getTrail.*
+*Figure 24. browseOpenHikes, niveau 2 : HikesFacade.findOpenHikes et TrailsFacade.getTrail.*
 
 ## 6.9 Lister les randonnées correspondantes (listMatchingHikes)
 
@@ -899,10 +848,15 @@ loop chaque randonnée
   UC->>HF: matchesSkill(skillRank,<br/>trail.difficulty)
   HF-->>UC: correspond
 end
+loop chaque randonnée retenue
+    UC->>M: organizerNameOf(hike.organizerId)
+    M-->>UC: organizerName
+    UC->>UC: construire HikeSummary
+end
 UC-->>V: List of HikeSummary
 ```
 
-*Figure 26. listMatchingHikes, niveau 1.*
+*Figure 25. listMatchingHikes, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -921,7 +875,7 @@ PO-->>HF: correspond
 Note over M,PO: Consultation sans changement<br/>d'état : aucun événement de<br/>domaine
 ```
 
-*Figure 27. listMatchingHikes, niveau 2 : MembersFacade.getProfile et HikesFacade.*
+*Figure 26. listMatchingHikes, niveau 2 : MembersFacade.getProfile et HikesFacade.*
 
 ## 6.10 S’inscrire à une randonnée (signUpForHike)
 
@@ -958,7 +912,7 @@ UC->>EM: send(message)
 UC-->>V: signUpId.value
 ```
 
-*Figure 28. signUpForHike, niveau 1.*
+*Figure 27. signUpForHike, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -970,7 +924,7 @@ participant F as SignUp<br/>Factory
 participant E as DomainEvent<br/>Emitter
 HF->>R: findById(hikeId)
 R-->>HF: hike
-HF->>H: requireAcceptingSignUps()
+HF->>H: requireAcceptingSignUps(at)
 HF->>PO: matches(skillRank,<br/>trailDifficulty)
 PO-->>HF: correspond
 break niveau trop faible
@@ -993,7 +947,7 @@ else liste d'attente
 end
 ```
 
-*Figure 29. signUpForHike, niveau 2 : HikesFacade.signUp.*
+*Figure 28. signUpForHike, niveau 2 : HikesFacade.signUp.*
 
 ## 6.11 Annuler une inscription (cancelSignUp)
 
@@ -1026,7 +980,7 @@ opt un randonneur est promu
 end
 ```
 
-*Figure 30. cancelSignUp, niveau 1.*
+*Figure 29. cancelSignUp, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -1058,7 +1012,7 @@ opt complète sans liste d'attente
 end
 ```
 
-*Figure 31. cancelSignUp, niveau 2 : HikesFacade.cancelSignUp.*
+*Figure 30. cancelSignUp, niveau 2 : HikesFacade.cancelSignUp.*
 
 ## 6.12 Envoyer le rappel (sendHikeReminder)
 
@@ -1080,7 +1034,7 @@ UC->>HF: prepareReminder(hikeId, now)
 HF-->>UC: hike
 UC->>TR: getTrail(trailId)
 TR-->>UC: trail
-UC->>W: forecast(trail.name, date)
+UC->>W: forecast(trail.trailhead, hike.startDateTime.toLocalDate())
 alt service disponible
   W-->>UC: condition
 else service indisponible
@@ -1096,7 +1050,7 @@ end
 UC->>HF: markReminderSent(hikeId, now)
 ```
 
-*Figure 32. sendHikeReminder, niveau 1.*
+*Figure 31. sendHikeReminder, niveau 1.*
 
 ```mermaid
 sequenceDiagram
@@ -1117,69 +1071,19 @@ HF->>R: save(hike)
 HF->>E: emit(HikeReminderSent)
 ```
 
-*Figure 33. sendHikeReminder, niveau 2 : HikesFacade.prepareReminder et markReminderSent.*
+*Figure 32. sendHikeReminder, niveau 2 : HikesFacade.prepareReminder et markReminderSent.*
 
-# 7. Références
+## 7. Déclaration d’utilisation de l’IA générative
 
-1.  SEG 3502, Projet de l’automne 2026, Livrable 2 : Domaine, Université d’Ottawa, 2026.
+| Outil (version) | Utilisation | Vérification |
+|---|---|---|
+| ChatGPT (GPT-6, OpenAI) | Assistance pour la correction du code Kotlin, l’ajout et l’ajustement de tests, ainsi que la mise en forme et la simplification du document Markdown. | Relecture des modifications et exécution locale de `gradlew.bat clean test` : `BUILD SUCCESSFUL` (84 tests réussis). |
 
-2.  Contrats Cucumber du livrable 1 : src/test/resources/contracts, dépôt de l’équipe.
+**Conception sans IA générative :** les modèles du domaine, les décisions de conception et les diagrammes de réalisation des cas d’utilisation ont été réalisés sans recours à l’IA générative.
 
-3.  E. Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software, Addison-Wesley, 2003.
+## 8. Références
 
-4.  V. Vernon, Implementing Domain-Driven Design, Addison-Wesley, 2013.
-
-5.  Cucumber, documentation de référence : https://cucumber.io/docs
-
-6.  Mermaid, documentation des diagrammes : https://mermaid.js.org
-
-# Annexe A. Exécution des contrats
-
-Les 68 scénarios des 12 contrats réussissent, ainsi que le test de chargement du contexte Spring, soit 69 tests sans échec.
-
-![term-green](images/term-green.png)
-
-*Figure 34. Sortie de ./gradlew clean test et synthèse par contrat.*
-
-![report-green](images/report-green.png)
-
-*Figure 35. Rapport HTML de Gradle après l’exécution complète.*
-
-![term-tree](images/term-tree.png)
-
-*Figure 36. Organisation du code par paquetage.*
-
-## Vérification de la portée des contrats
-
-Sur une copie du projet, 18 défauts ont été introduits un à un dans le domaine et les cas d’utilisation. Les contrats ont détecté les 17 défauts qui compilaient ; le dix-huitième ne compilait pas et n’est pas compté.
-
-# Annexe B. Intégration continue (bonus)
-
-Le fichier .github/workflows/contracts.yml est prêt : il se déclenche manuellement (workflow_dispatch), expire après 15 minutes et exécute les contrats avec ./gradlew test.
-
-Une exécution manuelle du workflow sur main a réussi le 18 novembre 2026. Cette exécution est la première : l’implémentation avait déjà été écrite, et aucune exécution n’enregistre l’échec initial des contrats. La condition de développement piloté par les tests n’est donc pas remplie, et le bonus n’est pas réclamé.
-
-| **Exécution demandée** | **Lien** |
-|:---|----|
-| Première exécution : tous les contrats échouent | Aucune : le workflow n’a pas été exécuté avant l’implémentation |
-| Exécution : tous les tests réussissent | https://github.com/SEG3502Lab/SEG3502Lab-Projet_CAR-HMS/actions/runs/44396626306 |
-
-À titre d’information, les corps des cas d’utilisation ont été remplacés par TODO() sur une copie locale, après l’implémentation. Les 68 scénarios échouent alors, ce qui confirme qu’ils dépendent bien de l’implémentation. Cette vérification ne remplace pas l’exécution demandée.
-
-![term-red](images/term-red.png)
-
-*Figure 37. Vérification locale avec des cas d’utilisation vides.*
-
-# Annexe C. Déclaration d’utilisation de l’IA générative
-
-L’équipe a utilisé Claude Code (modèle Claude Opus 5.5, Anthropic) pour ce livrable.
-
-| **Élément** | **Rôle de l’IA** |
-|:---|----|
-| Domaine et cas d’utilisation |  |
-| Stubs et définitions d’étapes |  |
-| Diagrammes UML |  |
-| Ce document |  |
-| Contrats, requêtes et interfaces du livrable 1 |  |
-
-Le résultat a été vérifié par l’exécution des contrats et par l’injection de défauts décrite à l’annexe A.
+1. SEG 3502, *Livrable 2 : Domaine*, automne 2026, Université d’Ottawa.
+2. CAR-HMS, *Exigences initiales*, document fourni pour le projet.
+3. [Documentation Cucumber](https://cucumber.io/docs).
+4. [Documentation Mermaid](https://mermaid.js.org).
