@@ -23,6 +23,8 @@
 
 Destiné au professeur et aux correcteurs du cours SEG 3502, ce document présente la conception tactique du domaine de CAR-HMS : hypothèses, modèles UML des sous-domaines et réalisations des cas d’utilisation aux niveaux 1 et 2.
 
+**Validation des contrats Cucumber :** [Exécution GitHub Actions réussie — 22 novembre 2026](https://github.com/SEG3502Lab/SEG3502Lab-Projet_CAR-HMS/actions/runs/45073457175).
+
 ## 3. Description de l’équipe et des rôles
 
 | Membre | Tâches effectuées pour ce livrable |
