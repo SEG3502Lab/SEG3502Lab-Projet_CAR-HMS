@@ -1,0 +1,355 @@
+<section class="profile-page">
+
+  <h1>Mon profil</h1>
+
+  <p>
+    Consultez et modifiez vos informations personnelles.
+  </p>
+
+  @if (errorMessage()) {
+
+    <div class="error-message" role="alert">
+      {{ errorMessage() }}
+    </div>
+
+  }
+
+  @if (successMessage()) {
+
+    <div class="success-message" role="status">
+      {{ successMessage() }}
+    </div>
+
+  }
+
+  @if (loading()) {
+
+    <div class="card empty-state">
+      Chargement de votre profil...
+    </div>
+
+  } @else if (profile(); as member) {
+
+    <section class="card membership-card">
+
+      <h2>Mon adhésion</h2>
+
+      <div class="membership-grid">
+
+        <div>
+
+          <span class="detail-label">
+            Adresse courriel
+          </span>
+
+          <strong>{{ member.email }}</strong>
+
+        </div>
+
+        <div>
+
+          <span class="detail-label">
+            Statut de l'adhésion
+          </span>
+
+          <span
+            class="membership-status"
+            [class.active]="member.membershipStatus === 'active'">
+
+            {{ member.membershipStatus }}
+
+          </span>
+
+        </div>
+
+        <div>
+
+          <span class="detail-label">
+            Type de membre
+          </span>
+
+          <strong>
+            {{ member.organizer ? 'Organisateur' : 'Randonneur' }}
+          </strong>
+
+        </div>
+
+        <div>
+
+          <span class="detail-label">
+            Date de naissance
+          </span>
+
+          <strong>{{ member.dateOfBirth }}</strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    @if (member.organizer) {
+
+      <section class="card certification-card">
+
+        <h2>Certification d'organisateur</h2>
+
+        <div class="membership-grid">
+
+          <div>
+
+            <span class="detail-label">
+              Numéro de certificat
+            </span>
+
+            <strong>
+              {{ member.certificateNumber }}
+            </strong>
+
+          </div>
+
+          <div>
+
+            <span class="detail-label">
+              Niveau de certification
+            </span>
+
+            <strong>
+              {{ member.organizerLevel }}
+            </strong>
+
+          </div>
+
+          <div>
+
+            <span class="detail-label">
+              Date de délivrance
+            </span>
+
+            <strong>
+              {{ member.certificateIssueDate }}
+            </strong>
+
+          </div>
+
+          <div>
+
+            <span class="detail-label">
+              Date d'expiration
+            </span>
+
+            <strong>
+              {{ member.certificateExpiryDate }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    }
+
+    <form
+      class="card"
+      #profileForm="ngForm"
+      (ngSubmit)="save()">
+
+      <section class="form-section">
+
+        <h2>Informations personnelles</h2>
+
+        <div class="form-grid">
+
+          <div>
+
+            <label for="firstName">Prénom</label>
+
+            <input
+              id="firstName"
+              name="firstName"
+              [(ngModel)]="form.firstName"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="lastName">Nom</label>
+
+            <input
+              id="lastName"
+              name="lastName"
+              [(ngModel)]="form.lastName"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="phoneNumber">
+              Numéro de téléphone
+            </label>
+
+            <input
+              id="phoneNumber"
+              name="phoneNumber"
+              type="tel"
+              [(ngModel)]="form.phoneNumber"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="skillLevel">
+              Niveau de randonnée
+            </label>
+
+            <select
+              id="skillLevel"
+              name="skillLevel"
+              [(ngModel)]="form.skillLevel"
+              required>
+
+              @for (level of skillLevels; track level) {
+
+                <option [value]="level">
+                  {{ level }}
+                </option>
+
+              }
+
+            </select>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>Adresse</h2>
+
+        <div class="form-grid">
+
+          <div>
+
+            <label for="streetAddress">Adresse</label>
+
+            <input
+              id="streetAddress"
+              name="streetAddress"
+              [(ngModel)]="form.streetAddress"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="city">Ville</label>
+
+            <input
+              id="city"
+              name="city"
+              [(ngModel)]="form.city"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="province">Province</label>
+
+            <input
+              id="province"
+              name="province"
+              [(ngModel)]="form.province"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="postalCode">Code postal</label>
+
+            <input
+              id="postalCode"
+              name="postalCode"
+              [(ngModel)]="form.postalCode"
+              required>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>Contact d'urgence</h2>
+
+        <div class="form-grid">
+
+          <div>
+
+            <label for="emergencyContactName">
+              Nom du contact
+            </label>
+
+            <input
+              id="emergencyContactName"
+              name="emergencyContactName"
+              [(ngModel)]="form.emergencyContactName"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="emergencyContactPhone">
+              Téléphone du contact
+            </label>
+
+            <input
+              id="emergencyContactPhone"
+              name="emergencyContactPhone"
+              type="tel"
+              [(ngModel)]="form.emergencyContactPhone"
+              required>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="profileForm.invalid || saving()">
+
+          {{ saving() ? 'Enregistrement...' : 'Enregistrer les modifications' }}
+
+        </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          [disabled]="saving()"
+          (click)="reset()">
+
+          Annuler les modifications
+
+        </button>
+
+      </div>
+
+    </form>
+
+  }
+
+</section>

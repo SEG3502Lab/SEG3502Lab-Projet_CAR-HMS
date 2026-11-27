@@ -1,0 +1,335 @@
+<section class="register-page">
+
+  <h1>Créer un compte</h1>
+
+  <p>
+    Inscrivez-vous pour participer aux randonnées
+    organisées par CAR-HMS.
+  </p>
+
+  @if (success()) {
+
+    <div class="card registration-success">
+
+      <h2>Inscription réussie !</h2>
+
+      <p>
+        Votre compte a été créé.
+        Vous pouvez maintenant vous connecter.
+      </p>
+
+      <a routerLink="/login" class="primary-button">
+        Se connecter
+      </a>
+
+    </div>
+
+  } @else {
+
+    <form
+      #registerForm="ngForm"
+      (ngSubmit)="register()"
+      class="card">
+
+      <section class="form-section">
+
+        <h2>1. Informations du compte</h2>
+
+        <div class="form-grid">
+
+          <div>
+            <label for="invitationCode">
+              Code d'invitation
+            </label>
+
+            <input
+              id="invitationCode"
+              name="invitationCode"
+              [(ngModel)]="form.invitationCode"
+              required>
+          </div>
+
+          <div>
+            <label for="email">Courriel</label>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              [(ngModel)]="form.email"
+              autocomplete="email"
+              required
+              email>
+          </div>
+
+          <div>
+            <label for="password">
+              Mot de passe
+            </label>
+
+            <input
+              id="password"
+              name="password"
+              type="password"
+              [(ngModel)]="form.password"
+              autocomplete="new-password"
+              minlength="8"
+              required>
+          </div>
+
+          <div>
+            <label for="confirmPassword">
+              Confirmer le mot de passe
+            </label>
+
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              [(ngModel)]="confirmPassword"
+              autocomplete="new-password"
+              required>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>2. Informations personnelles</h2>
+
+        <div class="form-grid">
+
+          <div>
+            <label for="firstName">Prénom</label>
+
+            <input
+              id="firstName"
+              name="firstName"
+              [(ngModel)]="form.firstName"
+              required>
+          </div>
+
+          <div>
+            <label for="lastName">Nom</label>
+
+            <input
+              id="lastName"
+              name="lastName"
+              [(ngModel)]="form.lastName"
+              required>
+          </div>
+
+          <div>
+            <label for="phoneNumber">
+              Numéro de téléphone
+            </label>
+
+            <input
+              id="phoneNumber"
+              name="phoneNumber"
+              type="tel"
+              [(ngModel)]="form.phoneNumber"
+              required>
+          </div>
+
+          <div>
+            <label for="dateOfBirth">
+              Date de naissance
+            </label>
+
+            <input
+              id="dateOfBirth"
+              name="dateOfBirth"
+              type="date"
+              [(ngModel)]="form.dateOfBirth"
+              required>
+          </div>
+
+          @if (isMinor()) {
+
+            <div>
+              <label for="guardianName">
+                Nom du parent ou du tuteur
+              </label>
+
+              <input
+                id="guardianName"
+                name="guardianName"
+                [(ngModel)]="form.guardianName"
+                required>
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>3. Adresse</h2>
+
+        <div class="form-grid">
+
+          <div>
+            <label for="streetAddress">
+              Adresse
+            </label>
+
+            <input
+              id="streetAddress"
+              name="streetAddress"
+              [(ngModel)]="form.streetAddress"
+              required>
+          </div>
+
+          <div>
+            <label for="city">Ville</label>
+
+            <input
+              id="city"
+              name="city"
+              [(ngModel)]="form.city"
+              required>
+          </div>
+
+          <div>
+            <label for="province">Province</label>
+
+            <input
+              id="province"
+              name="province"
+              [(ngModel)]="form.province"
+              required>
+          </div>
+
+          <div>
+            <label for="postalCode">
+              Code postal
+            </label>
+
+            <input
+              id="postalCode"
+              name="postalCode"
+              [(ngModel)]="form.postalCode"
+              required>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>4. Contact d'urgence</h2>
+
+        <div class="form-grid">
+
+          <div>
+            <label for="emergencyContactName">
+              Nom du contact
+            </label>
+
+            <input
+              id="emergencyContactName"
+              name="emergencyContactName"
+              [(ngModel)]="form.emergencyContactName"
+              required>
+          </div>
+
+          <div>
+            <label for="emergencyContactPhone">
+              Téléphone du contact
+            </label>
+
+            <input
+              id="emergencyContactPhone"
+              name="emergencyContactPhone"
+              type="tel"
+              [(ngModel)]="form.emergencyContactPhone"
+              required>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>5. Expérience et responsabilité</h2>
+
+        <div class="form-group">
+
+          <label for="skillLevel">
+            Niveau de randonnée
+          </label>
+
+          <select
+            id="skillLevel"
+            name="skillLevel"
+            [(ngModel)]="form.skillLevel"
+            required>
+
+            @for (level of skillLevels; track level) {
+
+              <option [value]="level">
+                {{ level }}
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+        <div class="waiver">
+
+          <label class="checkbox-label">
+
+            <input
+              type="checkbox"
+              name="waiverAccepted"
+              [(ngModel)]="form.waiverAccepted"
+              required>
+
+            J'accepte la décharge de responsabilité
+            liée à la participation aux randonnées.
+
+          </label>
+
+        </div>
+
+      </section>
+
+      @if (errorMessage()) {
+
+        <div class="error-message" role="alert">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="registerForm.invalid || loading()">
+
+          {{ loading() ? 'Inscription...' : 'Créer mon compte' }}
+
+        </button>
+
+        <a routerLink="/login">
+          J'ai déjà un compte
+        </a>
+
+      </div>
+
+    </form>
+
+  }
+
+</section>

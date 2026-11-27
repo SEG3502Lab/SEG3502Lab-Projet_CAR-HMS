@@ -1,0 +1,117 @@
+.admin-page {
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.admin-page > p {
+  margin-bottom: 30px;
+}
+
+.search-card,
+.member-card,
+.management-card {
+  margin-bottom: 24px;
+}
+
+.search-row {
+  display: flex;
+  gap: 12px;
+}
+
+.search-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.member-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.member-header h2 {
+  margin-bottom: 4px;
+}
+
+.member-header p {
+  margin: 0;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.detail-grid > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  overflow-wrap: anywhere;
+}
+
+.detail-label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fff0e6;
+  color: #a04b17;
+}
+
+.status-badge.active {
+  background: #e4f2e5;
+  color: #237a40;
+}
+
+.management-card h2 {
+  font-size: 22px;
+}
+
+.management-card select {
+  max-width: 100%;
+}
+
+.existing-certification {
+  background: #eef3eb;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+  margin: 20px 0 28px;
+}
+
+.existing-certification h3 {
+  color: var(--primary-dark);
+  margin-top: 0;
+}
+
+.certification-button {
+  margin-top: 24px;
+}
+
+@media (max-width: 650px) {
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .management-card button {
+    width: 100%;
+  }
+}

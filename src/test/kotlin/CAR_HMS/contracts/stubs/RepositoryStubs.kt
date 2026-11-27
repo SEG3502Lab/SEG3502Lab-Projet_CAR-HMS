@@ -22,13 +22,21 @@ class StubHikeRepository : HikeRepository, Resettable {
     private val hikes = linkedMapOf<HikeId, Hike>()
 
     override fun findById(id: HikeId): Hike? = hikes[id]
-    override fun findBySignUpId(id: SignUpId): Hike? = hikes.values.firstOrNull { hike -> hike.signUps.any { it.id == id } }
-    override fun findByStatus(status: HikeStatus): List<Hike> = hikes.values.filter { it.status == status }
+
+    override fun findBySignUpId(id: SignUpId): Hike? =
+        hikes.values.firstOrNull { hike ->
+            hike.signUps.any { it.id == id }
+        }
+
+    override fun findByStatus(status: HikeStatus): List<Hike> =
+        hikes.values.filter { it.status == status }
+
     override fun save(hike: Hike) {
         hikes[hike.id] = hike
     }
 
     fun all(): List<Hike> = hikes.values.toList()
+
     override fun reset() = hikes.clear()
 }
 
@@ -37,9 +45,17 @@ class StubHikerRepository : HikerRepository, Resettable {
     private val hikers = linkedMapOf<HikerId, Hiker>()
 
     override fun findById(id: HikerId): Hiker? = hikers[id]
-    override fun findByEmail(email: String): Hiker? = hikers.values.firstOrNull { it.email == email }
-    override fun existsByCertificateNumber(certificateNumber: String): Boolean =
-        hikers.values.any { it.certification?.certificateNumber == certificateNumber }
+
+    override fun findByEmail(email: String): Hiker? =
+        hikers.values.firstOrNull { it.email == email }
+
+    override fun existsByCertificateNumber(
+        certificateNumber: String
+    ): Boolean =
+        hikers.values.any {
+            it.certification?.certificateNumber == certificateNumber
+        }
+
     override fun save(hiker: Hiker) {
         hikers[hiker.id] = hiker
     }
@@ -48,10 +64,14 @@ class StubHikerRepository : HikerRepository, Resettable {
 }
 
 @Component
-class StubInvitationCodeRepository : InvitationCodeRepository, Resettable {
+class StubInvitationCodeRepository :
+    InvitationCodeRepository, Resettable {
+
     private val codes = linkedMapOf<String, InvitationCode>()
 
-    override fun findByCode(code: String): InvitationCode? = codes[code]
+    override fun findByCode(code: String): InvitationCode? =
+        codes[code]
+
     override fun save(invitationCode: InvitationCode) {
         codes[invitationCode.code] = invitationCode
     }
@@ -64,7 +84,13 @@ class StubTrailRepository : TrailRepository, Resettable {
     private val trails = linkedMapOf<TrailId, Trail>()
 
     override fun findById(id: TrailId): Trail? = trails[id]
-    fun findByName(name: String): Trail? = trails.values.firstOrNull { it.name == name }
+
+    override fun findAll(): List<Trail> =
+        trails.values.toList()
+
+    fun findByName(name: String): Trail? =
+        trails.values.firstOrNull { it.name == name }
+
     fun save(trail: Trail) {
         trails[trail.id] = trail
     }
@@ -73,10 +99,14 @@ class StubTrailRepository : TrailRepository, Resettable {
 }
 
 @Component
-class StubUserAccountRepository : UserAccountRepository, Resettable {
+class StubUserAccountRepository :
+    UserAccountRepository, Resettable {
+
     private val accounts = linkedMapOf<String, UserAccount>()
 
-    override fun findByEmail(email: String): UserAccount? = accounts[email]
+    override fun findByEmail(email: String): UserAccount? =
+        accounts[email]
+
     override fun save(account: UserAccount) {
         accounts[account.email] = account
     }

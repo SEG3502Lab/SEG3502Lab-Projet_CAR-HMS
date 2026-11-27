@@ -1,0 +1,97 @@
+.page-heading {
+  padding: 32px 0 24px;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  color: #52765c;
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.page-heading h1 {
+  margin-top: 10px;
+  font-size: 38px;
+}
+
+.page-heading p {
+  font-size: 17px;
+}
+
+.filters {
+  margin-bottom: 38px;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.results h2 {
+  margin-bottom: 16px;
+}
+
+.hike-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(260px, 1fr)
+  );
+  gap: 20px;
+}
+
+.hike-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.difficulty,
+.status {
+  background: #e7efe4;
+  color: #28543a;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.hike-card h3 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.hike-card dl {
+  margin-top: 22px;
+  border-top: 1px solid #e1e7df;
+  padding-top: 18px;
+}
+
+.hike-card dt {
+  color: #68756d;
+  font-size: 12px;
+}
+
+.hike-card dd {
+  margin: 2px 0 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-heading h1 {
+    font-size: 28px;
+  }
+}

@@ -1,0 +1,356 @@
+<section class="admin-page">
+
+  <h1>Administration</h1>
+
+  <p>
+    Gérez les adhésions et les certifications
+    des randonneurs.
+  </p>
+
+  <section class="card search-card">
+
+    <h2>Rechercher un randonneur</h2>
+
+    <form
+      #searchForm="ngForm"
+      (ngSubmit)="search()">
+
+      <label for="searchEmail">
+        Adresse courriel du randonneur
+      </label>
+
+      <div class="search-row">
+
+        <input
+          id="searchEmail"
+          name="searchEmail"
+          type="email"
+          [(ngModel)]="searchEmail"
+          placeholder="randonneur@exemple.ca"
+          required
+          email>
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="searchForm.invalid || loading() || saving()">
+
+          Rechercher
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+  @if (errorMessage()) {
+
+    <div class="error-message" role="alert">
+      {{ errorMessage() }}
+    </div>
+
+  }
+
+  @if (successMessage()) {
+
+    <div class="success-message" role="status">
+      {{ successMessage() }}
+    </div>
+
+  }
+
+  @if (loading()) {
+
+    <div class="card empty-state">
+      Chargement du profil...
+    </div>
+
+  } @else if (profile(); as member) {
+
+    <section class="card member-card">
+
+      <div class="member-header">
+
+        <div>
+
+          <h2>
+            {{ member.firstName }}
+            {{ member.lastName }}
+          </h2>
+
+          <p>{{ member.email }}</p>
+
+        </div>
+
+        <span
+          class="status-badge"
+          [class.active]="member.membershipStatus === 'active'">
+
+          {{ member.membershipStatus }}
+
+        </span>
+
+      </div>
+
+      <div class="detail-grid">
+
+        <div>
+
+          <span class="detail-label">Téléphone</span>
+
+          <strong>{{ member.phoneNumber }}</strong>
+
+        </div>
+
+        <div>
+
+          <span class="detail-label">
+            Date de naissance
+          </span>
+
+          <strong>{{ member.dateOfBirth }}</strong>
+
+        </div>
+
+        <div>
+
+          <span class="detail-label">
+            Niveau de randonnée
+          </span>
+
+          <strong>{{ member.skillLevel }}</strong>
+
+        </div>
+
+        <div>
+
+          <span class="detail-label">
+            Type de membre
+          </span>
+
+          <strong>
+            {{ member.organizer ? 'Organisateur' : 'Randonneur' }}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="card management-card">
+
+      <h2>Gérer l'adhésion</h2>
+
+      <p>
+        Modifiez le statut d'adhésion de ce randonneur.
+      </p>
+
+      <form
+        #membershipForm="ngForm"
+        (ngSubmit)="updateMembership()">
+
+        <div class="form-group">
+
+          <label for="newStatus">
+            Nouveau statut
+          </label>
+
+          <select
+            id="newStatus"
+            name="newStatus"
+            [(ngModel)]="newStatus"
+            required>
+
+            @for (status of statuses; track status.value) {
+
+              <option [value]="status.value">
+                {{ status.label }}
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="saving() || membershipForm.invalid || newStatus === member.membershipStatus">
+
+          Mettre à jour l'adhésion
+
+        </button>
+
+      </form>
+
+    </section>
+
+    <section class="card management-card">
+
+      <h2>Certification d'organisateur</h2>
+
+      @if (member.organizer) {
+
+        <div class="existing-certification">
+
+          <h3>Certification actuelle</h3>
+
+          <div class="detail-grid">
+
+            <div>
+
+              <span class="detail-label">
+                Numéro de certificat
+              </span>
+
+              <strong>
+                {{ member.certificateNumber }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span class="detail-label">
+                Niveau
+              </span>
+
+              <strong>
+                {{ member.organizerLevel }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span class="detail-label">
+                Date de délivrance
+              </span>
+
+              <strong>
+                {{ member.certificateIssueDate }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span class="detail-label">
+                Date d'expiration
+              </span>
+
+              <strong>
+                {{ member.certificateExpiryDate }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      } @else {
+
+        <p>
+          Ce randonneur ne possède actuellement
+          aucune certification d'organisateur.
+        </p>
+
+      }
+
+      <form
+        #certificationForm="ngForm"
+        (ngSubmit)="recordCertification()">
+
+        <div class="form-grid">
+
+          <div>
+
+            <label for="certificateNumber">
+              Numéro de certificat
+            </label>
+
+            <input
+              id="certificateNumber"
+              name="certificateNumber"
+              [(ngModel)]="certificateNumber"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="organizerLevel">
+              Niveau de certification
+            </label>
+
+            <select
+              id="organizerLevel"
+              name="organizerLevel"
+              [(ngModel)]="organizerLevel"
+              required>
+
+              @for (level of difficulties; track level) {
+
+                <option [value]="level">
+                  {{ level }}
+                </option>
+
+              }
+
+            </select>
+
+          </div>
+
+          <div>
+
+            <label for="issueDate">
+              Date de délivrance
+            </label>
+
+            <input
+              id="issueDate"
+              name="issueDate"
+              type="date"
+              [(ngModel)]="issueDate"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="expiryDate">
+              Date d'expiration
+            </label>
+
+            <input
+              id="expiryDate"
+              name="expiryDate"
+              type="date"
+              [(ngModel)]="expiryDate"
+              required>
+
+          </div>
+
+        </div>
+
+        <button
+          type="submit"
+          class="primary-button certification-button"
+          [disabled]="certificationForm.invalid || saving()">
+
+          Enregistrer la certification
+
+        </button>
+
+      </form>
+
+    </section>
+
+  }
+
+</section>

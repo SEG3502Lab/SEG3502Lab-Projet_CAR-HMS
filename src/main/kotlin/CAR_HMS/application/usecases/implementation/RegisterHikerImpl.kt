@@ -12,6 +12,7 @@ import CAR_HMS.domain.members.MembersFacade
 import CAR_HMS.domain.members.PersonName
 import CAR_HMS.domain.members.SkillLevel
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RegisterHikerImpl(
@@ -21,21 +22,57 @@ class RegisterHikerImpl(
     private val time: TimeService
 ) : RegisterHiker {
 
-    override fun registerHiker(query: RegisterHikerQuery): String {
+    @Transactional
+    override fun registerHiker(
+        query: RegisterHikerQuery
+    ): String {
+
         val now = time.now()
+
         val registration = HikerRegistration(
+
             query.email,
-            PersonName(query.firstName, query.lastName),
+
+            PersonName(
+                query.firstName,
+                query.lastName
+            ),
+
             query.phoneNumber,
-            Address(query.streetAddress, query.city, query.province, query.postalCode),
+
+            Address(
+                query.streetAddress,
+                query.city,
+                query.province,
+                query.postalCode
+            ),
+
             query.dateOfBirth,
-            EmergencyContact(query.emergencyContactName, query.emergencyContactPhone),
+
+            EmergencyContact(
+                query.emergencyContactName,
+                query.emergencyContactPhone
+            ),
+
             SkillLevel.fromLabel(query.skillLevel),
+
             query.waiverAccepted,
+
             query.guardianName
         )
-        val hikerId = members.registerHiker(query.invitationCode, registration, now)
-        authentication.createHikerAccount(query.email, passwordHasher.hash(query.password), now)
+
+        val hikerId = members.registerHiker(
+            query.invitationCode,
+            registration,
+            now
+        )
+
+        authentication.createHikerAccount(
+            query.email,
+            passwordHasher.hash(query.password),
+            now
+        )
+
         return hikerId.value
     }
 }

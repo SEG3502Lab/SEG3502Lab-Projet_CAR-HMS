@@ -1,0 +1,328 @@
+<section class="create-page">
+
+  <h1>Créer une randonnée</h1>
+
+  <p>
+    Planifiez une nouvelle randonnée et rendez-la
+    accessible aux membres de CAR-HMS.
+  </p>
+
+  @if (errorMessage()) {
+
+    <div class="error-message" role="alert">
+      {{ errorMessage() }}
+    </div>
+
+  }
+
+  @if (createdHikeId()) {
+
+    <section class="card creation-success">
+
+      <h2>Randonnée créée avec succès !</h2>
+
+      <p>
+        Votre randonnée a été enregistrée et peut
+        maintenant être consultée par les utilisateurs.
+      </p>
+
+      <div class="form-actions">
+
+        <a routerLink="/" class="primary-button">
+          Voir les randonnées
+        </a>
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="reset()">
+
+          Créer une autre randonnée
+
+        </button>
+
+      </div>
+
+    </section>
+
+  } @else if (loading()) {
+
+    <div class="card empty-state">
+      Chargement des sentiers...
+    </div>
+
+  } @else if (trails().length === 0) {
+
+    <section class="card empty-state">
+
+      <h2>Aucun sentier disponible</h2>
+
+      <p>
+        Aucun sentier autorisé pour la randonnée
+        n'est actuellement enregistré.
+      </p>
+
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="loadTrails()">
+
+        Actualiser
+
+      </button>
+
+    </section>
+
+  } @else {
+
+    <form
+      class="card"
+      #hikeForm="ngForm"
+      (ngSubmit)="create()">
+
+      <section class="form-section">
+
+        <h2>1. Informations générales</h2>
+
+        <div class="form-group">
+
+          <label for="title">Titre de la randonnée</label>
+
+          <input
+            id="title"
+            name="title"
+            [(ngModel)]="title"
+            maxlength="150"
+            placeholder="Ex. Randonnée découverte"
+            required>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="description">Description</label>
+
+          <textarea
+            id="description"
+            name="description"
+            [(ngModel)]="description"
+            rows="5"
+            maxlength="5000"
+            placeholder="Décrivez la randonnée..."
+            required>
+          </textarea>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>2. Choix du sentier</h2>
+
+        <div class="form-group">
+
+          <label for="trailId">Sentier</label>
+
+          <select
+            id="trailId"
+            name="trailId"
+            [(ngModel)]="trailId"
+            required>
+
+            <option value="">Choisir un sentier</option>
+
+            @for (trail of trails(); track trail.id) {
+
+              <option [value]="trail.id">
+
+                {{ trail.name }} — {{ trail.difficulty }}
+
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+        @if (selectedTrail(); as trail) {
+
+          <div class="trail-details">
+
+            <div class="form-grid">
+
+              <div>
+
+                <label>Difficulté</label>
+
+                {{ trail.difficulty }}
+
+              </div>
+
+              <div>
+
+                <label>Point de départ</label>
+
+                {{ trail.trailhead }}
+
+              </div>
+
+              <div>
+
+                <label>Début de la saison</label>
+
+                {{ trail.openingSeasonStart }}
+
+              </div>
+
+              <div>
+
+                <label>Fin de la saison</label>
+
+                {{ trail.openingSeasonEnd }}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        }
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>3. Horaire</h2>
+
+        <div class="form-grid">
+
+          <div>
+
+            <label for="startDateTime">
+              Date et heure de départ
+            </label>
+
+            <input
+              id="startDateTime"
+              name="startDateTime"
+              type="datetime-local"
+              [(ngModel)]="startDateTime"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="registrationDeadline">
+              Date limite d'inscription
+            </label>
+
+            <input
+              id="registrationDeadline"
+              name="registrationDeadline"
+              type="datetime-local"
+              [(ngModel)]="registrationDeadline"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="durationHours">
+              Durée prévue — heures
+            </label>
+
+            <input
+              id="durationHours"
+              name="durationHours"
+              type="number"
+              min="0"
+              step="1"
+              [(ngModel)]="durationHours"
+              required>
+
+          </div>
+
+          <div>
+
+            <label for="durationMinutes">
+              Durée prévue — minutes
+            </label>
+
+            <input
+              id="durationMinutes"
+              name="durationMinutes"
+              type="number"
+              min="0"
+              max="59"
+              step="1"
+              [(ngModel)]="durationMinutes"
+              required>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <h2>4. Participants</h2>
+
+        <div class="form-group">
+
+          <label for="capacity">
+            Nombre maximal de participants
+          </label>
+
+          <input
+            id="capacity"
+            name="capacity"
+            type="number"
+            min="1"
+            step="1"
+            [(ngModel)]="capacity"
+            required>
+
+        </div>
+
+      </section>
+
+      @if (errorMessage()) {
+
+        <div class="error-message" role="alert">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="hikeForm.invalid || saving()">
+
+          {{ saving() ? 'Création...' : 'Créer la randonnée' }}
+
+        </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          [disabled]="saving()"
+          (click)="reset()">
+
+          Réinitialiser
+
+        </button>
+
+      </div>
+
+    </form>
+
+  }
+
+</section>

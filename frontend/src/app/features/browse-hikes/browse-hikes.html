@@ -1,0 +1,180 @@
+<section class="page-heading">
+
+  <span class="eyebrow">CAR-HMS</span>
+
+  <h1>Découvrez les prochaines randonnées</h1>
+
+  <p>
+    Explorez les sentiers et trouvez une randonnée
+    adaptée à votre niveau.
+  </p>
+
+</section>
+
+<section class="card filters">
+
+  <h2>Rechercher une randonnée</h2>
+
+  <form (ngSubmit)="search()">
+
+    <div class="filter-grid">
+
+      <div class="form-group">
+        <label for="trailName">Sentier</label>
+
+        <input
+          id="trailName"
+          name="trailName"
+          [(ngModel)]="trailName"
+          placeholder="Nom du sentier">
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date</label>
+
+        <input
+          id="date"
+          name="date"
+          type="date"
+          [(ngModel)]="date">
+      </div>
+
+      <div class="form-group">
+        <label for="difficulty">Difficulté</label>
+
+        <select
+          id="difficulty"
+          name="difficulty"
+          [(ngModel)]="difficulty">
+
+          <option value="">Toutes les difficultés</option>
+
+          @for (level of difficulties; track level) {
+            <option [value]="level">
+              {{ level }}
+            </option>
+          }
+
+        </select>
+      </div>
+
+    </div>
+
+    <div class="filter-actions">
+
+      <button
+        type="submit"
+        class="primary-button"
+        [disabled]="loading()">
+        Rechercher
+      </button>
+
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="resetFilters()">
+        Réinitialiser
+      </button>
+
+      @if (
+        auth.isAuthenticated() &&
+        !auth.isAdministrator()
+      ) {
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="showMatching()">
+          Adaptées à mon niveau
+        </button>
+      }
+
+    </div>
+
+  </form>
+
+</section>
+
+<section class="results">
+
+  <h2>Randonnées disponibles</h2>
+
+  @if (errorMessage()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (loading()) {
+
+    <div class="empty-state">
+      Chargement des randonnées...
+    </div>
+
+  } @else if (!errorMessage()) {
+
+    @if (hikes().length === 0) {
+
+      <div class="card empty-state">
+
+        <h3>Aucune randonnée disponible</h3>
+
+        <p>
+          Aucune randonnée ne correspond actuellement
+          à vos critères de recherche.
+        </p>
+
+      </div>
+
+    } @else {
+
+      <p>{{ hikes().length }} randonnée(s) trouvée(s)</p>
+
+      <div class="hike-grid">
+
+        @for (hike of hikes(); track hike.hikeId) {
+
+          <article class="card hike-card">
+
+            <div class="hike-card-header">
+
+              <span class="difficulty">
+                {{ hike.difficulty }}
+              </span>
+
+              <span class="status">
+                {{ hike.status }}
+              </span>
+
+            </div>
+
+            <h3>{{ hike.title }}</h3>
+
+            <p>{{ hike.trailName }}</p>
+
+            <dl>
+
+              <dt>Date et heure</dt>
+              <dd>
+                {{ hike.startDateTime
+                  | date:'dd/MM/yyyy HH:mm' }}
+              </dd>
+
+              <dt>Organisateur</dt>
+              <dd>{{ hike.organizerName }}</dd>
+
+              <dt>Places restantes</dt>
+              <dd>{{ hike.remainingSpots }}</dd>
+
+            </dl>
+
+          </article>
+
+        }
+
+      </div>
+
+    }
+
+  }
+
+</section>

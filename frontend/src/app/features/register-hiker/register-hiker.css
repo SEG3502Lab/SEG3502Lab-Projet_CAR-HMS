@@ -1,0 +1,61 @@
+.register-page {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.register-page > p {
+  margin-bottom: 30px;
+}
+
+.form-section {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-section h2 {
+  font-size: 20px;
+  margin-bottom: 22px;
+}
+
+.waiver {
+  background: #eef3eb;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  font-weight: 400;
+}
+
+.checkbox-label input {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.form-actions a {
+  font-size: 14px;
+}
+
+.registration-success {
+  padding: 45px 30px;
+  text-align: center;
+}
+
+.registration-success a {
+  display: inline-block;
+  margin-top: 16px;
+  text-decoration: none;
+}

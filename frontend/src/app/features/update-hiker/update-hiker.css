@@ -1,0 +1,84 @@
+.profile-page {
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.profile-page > p {
+  margin-bottom: 30px;
+}
+
+.membership-card,
+.certification-card {
+  margin-bottom: 24px;
+}
+
+.membership-card h2,
+.certification-card h2 {
+  font-size: 21px;
+  margin-bottom: 24px;
+}
+
+.membership-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.membership-grid > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  overflow-wrap: anywhere;
+}
+
+.detail-label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.membership-status {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 5px;
+  background: #fff0e6;
+  color: #a04b17;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.membership-status.active {
+  background: #e4f2e5;
+  color: #237a40;
+}
+
+.certification-card {
+  border-left: 4px solid var(--primary);
+}
+
+.form-section {
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-section h2 {
+  font-size: 20px;
+  margin-bottom: 22px;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+@media (max-width: 650px) {
+  .membership-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}

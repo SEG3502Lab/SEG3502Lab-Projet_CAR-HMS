@@ -1,0 +1,94 @@
+<header class="header">
+
+  <div class="header-container">
+
+    <a routerLink="/" class="brand">
+      <span class="brand-name">CAR-HMS</span>
+      <span class="brand-description">
+        Gestion des randonnées
+      </span>
+    </a>
+
+    <nav class="navigation">
+
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Randonnées
+      </a>
+
+      @if (auth.isAuthenticated()) {
+
+        @if (!auth.isAdministrator()) {
+          <a
+            routerLink="/profile"
+            routerLinkActive="active">
+            Mon profil
+          </a>
+        }
+
+        @if (auth.isOrganizer()) {
+          <a
+            routerLink="/create-hike"
+            routerLinkActive="active">
+            Créer une randonnée
+          </a>
+        }
+
+        @if (auth.isAdministrator()) {
+          <a
+            routerLink="/admin"
+            routerLinkActive="active">
+            Administration
+          </a>
+        }
+
+        <span class="user-email">
+          {{ auth.user()?.email }}
+        </span>
+
+        <button
+          class="logout-button"
+          (click)="signOut()">
+          Déconnexion
+        </button>
+
+      } @else {
+
+        <a
+          routerLink="/register"
+          routerLinkActive="active">
+          Inscription
+        </a>
+
+        <a
+          routerLink="/login"
+          class="login-button">
+          Connexion
+        </a>
+
+      }
+
+    </nav>
+
+  </div>
+
+</header>
+
+<main class="main-container">
+
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <router-outlet />
+
+</main>
+
+<footer class="footer">
+  CAR-HMS — Système de gestion des randonnées
+  | SEG3502
+</footer>
