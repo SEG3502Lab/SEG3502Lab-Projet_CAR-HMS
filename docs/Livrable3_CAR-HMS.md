@@ -209,11 +209,9 @@ Les randonnées complètes admissibles à la liste d’attente devront être acc
 
 ## 7. Déclaration relative à l’IA générative
 
-Salma Sajid : ChatGPT (GPT-6.2) a aidé à implémenter l’infrastructure Kotlin/Spring Boot, la persistance JPA, la sécurité, les transactions et le frontend Angular, ainsi qu’à rédiger la documentation et les storyboards. Son outil de génération d’images a produit la maquette filaire de la section 6.1 à partir des exigences et de la structure de CAR-HMS.
+ChatGPT (GPT-6.2) a aidé à implémenter l’infrastructure Kotlin/Spring Boot, la persistance JPA, la sécurité, les transactions et le frontend Angular, ainsi qu’à rédiger la documentation et les storyboards. Son outil de génération d’images a produit la maquette filaire de la section 6.1 à partir des exigences et de la structure de CAR-HMS.
 
 Les résultats ont été contrôlés par compilation, tests Gradle et Angular et essais manuels des fonctionnalités déjà vérifiées. Les 84 tests Kotlin et les 8 tests Angular ont réussi ; la création de randonnée de bout en bout et les accès concurrents restent à confirmer. La maquette et les storyboards doivent être relus par l’équipe avant la remise.
-
-La déclaration de Mehdi Semmar reste à compléter.
 
 ## 8. Démonstration
 
